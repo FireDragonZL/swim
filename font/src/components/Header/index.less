@@ -1,0 +1,27 @@
+@import '../../style/default.less';
+
+.header-title {
+    height: calc(8vh);
+    line-height: calc(8vh);
+    background-color: @colorM;
+    font-size: @fontD;
+    .option {
+        text-align: center;
+        &:after {
+            position: absolute;
+            content: "";
+            left: calc(10vh);
+            top: calc(8vh);
+            border-top: 15px solid @colorM;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+        }
+    }
+    .info {
+        text-align: right;
+        a {
+            margin: 0 20px;
+        }
+    }
+}
+

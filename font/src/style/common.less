@@ -1,0 +1,22 @@
+@import './default.less';
+@import './loading.less';
+
+// 主页面的样式设置
+.container {
+    overflow: hidden;  // 关闭窗口的滚动条
+    
+    .nav-left {
+        min-width: 100px;
+        height: calc(100vh);
+        background-color: #001529;
+    }
+    .main {
+        height: calc(100vh);
+        background-color: @colorO;
+        overflow: auto;
+    }
+    .content {
+        margin: 10px;
+        padding: 10px;  
+    }
+}
