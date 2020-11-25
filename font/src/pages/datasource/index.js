@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
-import { Select, message } from 'antd'
+import { Select, message, Button } from 'antd'
 import './index.less'
+import TableList from './tablelist/tablelist'
+import TableData from './tabledata/tabledata'
 
 const  { Option } = Select
 
@@ -16,19 +18,20 @@ class DataSource extends Component {
             <div className="datasource-wrap">
                 <div className="datasource-db">
                     <Select 
-                        placeholder="请选择数据库"
-                        style={{ width: 170 }}
+                        placeholder="数据库"
+                        style={{ width: 110 }}
                         onChange={this.handleChange}
                     >
                         <Option value="default">default</Option>
                         <Option value="miner">miner</Option>
                     </Select>
+                    <Button type="primary">同步</Button>
                 </div>
                 <div className="datasource-table">
-                    表信息
+                    <TableList />
                 </div>
                 <div className="datasource-data">
-                    表格下载 + 字段过滤 + 
+                    <TableData />
                 </div>
             </div>
         )

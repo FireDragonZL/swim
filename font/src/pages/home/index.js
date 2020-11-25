@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Card, Row, Col, Button, Modal, loading} from 'antd'
+import {Card, Row, Col, Button} from 'antd'
 
 import Info from './info/info'
 import Connect from './connect/connect'
@@ -13,49 +13,41 @@ class Home extends Component {
         const homeMenu = this.renderHomeMenu(homeList)
         this.state = {
             homeMenu,
-            visible: false,
-            title: "",
-            loading: false,
-            type: ""
+            datasource: {
+                visible: false,
+                title: "",
+                type: "hdfs",
+            }
         }
+    }
+
+    // 关闭弹窗
+    closeModal = () => {
+        const {datasource} = this.state
+        datasource.visible = false
+        this.setState({
+            datasource
+        })
     }
 
     // 数据源连接事件
     handleConnect = (item) => {
         this.setState({
-            visible: true,
-            title: item.title,
-            type: item.type
+            datasource: {
+                visible: true,
+                title: item.title,
+                type: item.type,
+            }
         })
     }
 
     // 数据源信息切换事件
     handleChange = (type) => {
+        const {datasource} = this.state
+        datasource.type = type
         this.setState({
-            type
+            datasource
         })
-    }
-
-    // 连接测试
-    handleConnectTest = () => {
-        alert("连接测试")
-    }
-
-    // 关闭弹窗
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        })
-    }
-
-    // 数据源连接
-    handleOk = () => {
-        this.setState({
-            loading: true
-        })
-        setTimeout(() => {
-            this.setState({ loading: false, visible: false });
-        }, 3000);
     }
 
     // 循环渲染主页面的菜单选项
@@ -94,25 +86,9 @@ class Home extends Component {
                     {this.state.homeMenu}
                 </Row>
                 <Card className="home-wrap-info">
-                    <Info type={this.state.type} />
+                    <Info type={this.state.datasource.type} />
                 </Card>
-                <Modal
-                    title={this.state.title}
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    width={450}
-                    footer={[
-                        <Button key="test" onClick={this.handleConnectTest}>
-                          测试
-                        </Button>,
-                        <Button key="connect" type="primary" loading={this.state.loading} onClick={this.handleOk}>
-                          连接
-                        </Button>,
-                    ]}
-                >
-                    <Connect type={this.state.type}/>
-                </Modal>
+                <Connect data={this.state.datasource} action={this.closeModal} />
             </div>
         )
     }

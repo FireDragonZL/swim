@@ -1,27 +1,43 @@
-import React, {Component} from 'react'
-import { Form, InputNumber, Input } from 'antd'
+import React from 'react'
+import { Form, InputNumber, Input, message, Modal, Button } from 'antd'
 import './connect.less'
 
 /**
  * 数据源连接信息
  */
+// 表单布局
 const layout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 12 },
 };
 
-class Connect extends Component {
+const Connect = props => {
 
-    render() {
-        const { type } = this.props
+    const { data, action } = props
+
+    const [form] = Form.useForm()
+
+    function handleFinish(value) {
+        message.success("表单提交成功")
+        console.log("value-->", value)
+    }
+
+    function handleFinishFailed() {
+        message.error("表单提交失败")
+    }
+    
+
+    function renderForm(type) {
         switch (type) {
             case 'hdfs':
                 return (
-                    <div>
                         <Form
+                            form={form}
                             {...layout}
                             layout="horizontal"
                             size="large"
+                            onFinish={handleFinish}
+                            onFinishFailed={handleFinishFailed}
                         >
                             <Form.Item 
                                 name="ip" 
@@ -44,15 +60,16 @@ class Connect extends Component {
                                 <InputNumber />
                             </Form.Item>
                         </Form>
-                    </div>
                 )
             case 'yarn':
                 return (
-                    <div>
                         <Form
+                            form={form}
                             {...layout}
                             layout="horizontal"
                             size="large"
+                            onFinish={handleFinish}
+                            onFinishFailed={handleFinishFailed}
                         >
                             <Form.Item 
                                 name="ip" 
@@ -82,14 +99,16 @@ class Connect extends Component {
                                 <Input />
                             </Form.Item>
                         </Form>
-                    </div>
                 )
             case 'hive':
                 return (
                         <Form
+                            form={form}
                             {...layout}
                             layout="horizontal"
                             size="large"
+                            onFinish={handleFinish}
+                            onFinishFailed={handleFinishFailed}
                         >
                             <Form.Item 
                                 name="ip" 
@@ -122,11 +141,13 @@ class Connect extends Component {
                 )
             default:
                 return (
-                    <div>
                         <Form
+                            form={form}
                             {...layout}
                             layout="horizontal"
                             size="large"
+                            onFinish={handleFinish}
+                            onFinishFailed={handleFinishFailed}
                         >
                             <Form.Item 
                                 name="ip" 
@@ -170,11 +191,38 @@ class Connect extends Component {
                                 <Input.Password />
                             </Form.Item>
                         </Form>
-                    </div>
                 )
         }
-        
     }
+
+    function handleOk() {
+        message.success("连接中...")
+        form.submit()
+    }
+
+    function handleConnectTest() {
+        message.info("连接测试")
+    }
+
+    return (
+        <Modal
+            title={data.title}
+            visible={data.visible}
+            onOk={handleOk}
+            onCancel={action}
+            width={450}
+            footer={[
+                <Button key="test" onClick={handleConnectTest}>
+                    测试
+                </Button>,
+                <Button key="connect" type="primary" onClick={handleOk}>
+                    连接
+                </Button>,
+            ]}
+        >
+            {renderForm(data.type)}
+        </Modal>
+    )
 }
 
 export default Connect

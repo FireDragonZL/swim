@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+################ thymeleaf #################
+spring:
+  resources:
+    # 指定了Spring Boot-web项目中静态文件存放地址
+    static-locations: classpath:templates/
+
+  datasource:
+    ################ mysql #####################
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/swim?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    username: root
+    password: 123456
+  tomcat:
+    # 隔离级别：读写提交
+    default-transaction-isolation: 2
+    # 使用druid数据源（不引入第三方连接池则默认使用内置的tomcat连接池）
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+################## mybatis-config ################
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.warehouse.swim.domain.dao
+################## 日志级别配置 ####################
+logging:
+  level:
+    root: debug
+

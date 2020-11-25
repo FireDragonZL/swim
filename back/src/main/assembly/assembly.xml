@@ -1,0 +1,44 @@
+<assembly>
+    <id>dist</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <!-- true表示创建一个包含此基本目录的归档文件 -->
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <!-- 启动脚本 -->
+        <fileSet>
+            <directory>src/main/assembly/bin</directory>
+            <fileMode>0777</fileMode>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <!-- 配置文件 -->
+        <fileSet>
+            <directory>${project.build.directory}/classes</directory>
+            <includes>
+                <include>*.properties</include>
+                <include>*.yml</include>
+            </includes>
+            <outputDirectory>conf</outputDirectory>
+        </fileSet>
+        <!-- 依赖包 -->
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
+        <!-- 项目日志文件，必须添加includes，否则会报错 -->
+        <fileSet>
+            <outputDirectory>logs</outputDirectory>
+            <includes>
+                <include></include>
+            </includes>
+        </fileSet>
+        <!-- 项目运行数据 -->
+        <fileSet>
+            <outputDirectory>data</outputDirectory>
+            <includes>
+                <include></include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
